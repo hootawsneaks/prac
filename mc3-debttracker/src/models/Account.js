@@ -10,8 +10,8 @@ const { Schema, SchemaTypes, model } = require('mongoose');
 const accountSchema = new Schema({
     // your code here
     accountName: {type: String, required: true, unique: true},
-    debtAmount: {type: Number, require: true, min: 0},
-    lastUpdate: Date
+    debtAmount: {type: Number, required: true, min: 0},
+    lastUpdated: Date
 });
 
 const Account = model('Account', accountSchema);
