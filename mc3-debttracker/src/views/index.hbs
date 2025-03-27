@@ -19,6 +19,14 @@
             If the list is empty, a paragraph element that states, 'No debts to display' should be rendered instead.
         -->
 
+        {{#if accounts}}
+            {{#each accounts}}
+                {{> debtItem this}}
+            {{/each}}
+        {{else}}
+            <p>No debts to display</p>
+        {{/if}}
+
         {{!-- Uncomment the block below for example items --}}
         {{!-- <div class="debtItemContainer">
             <div class="debtInfo">

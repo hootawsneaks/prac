@@ -10,7 +10,8 @@ const Account = require('../models/Account.js');
 */
 router.get('/', async function(req, res) {
     // Your code here. You may replace the code written below.
-    res.render('index');      
+    const accounts  = await Account.find().sort({lastUpdated: -1});
+    res.render('index'), {accounts: accounts};      
 });
 
 /* 
