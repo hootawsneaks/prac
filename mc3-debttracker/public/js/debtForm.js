@@ -9,7 +9,7 @@ submitBtn.addEventListener('click', async (e) => {
     const debtAmountValue = debtAmountInput.value;
     // TODO 1: Check if inputs are valid. If invalid, display error message in form_error paragraph element.
     
-    if(!accountNameInput || !debtAmountInput){
+    if(!accountNameTrimmed || !debtAmountValue){
         errorMessage.textContent = "Input is missing value(s)!";
     }
     else if(Number(debtAmountValue) <= 0){
@@ -25,7 +25,7 @@ submitBtn.addEventListener('click', async (e) => {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    accountName: accountName,
+                    accountName: accountNameTrimmed,
                     debtAmount: debtAmountValue
                 })
             });
@@ -33,11 +33,11 @@ submitBtn.addEventListener('click', async (e) => {
             const data = await response.json();
 
             // TODO 2.2: If successful, display either `Created New Account` or `Updated Existing Account` in an alert message then refresh the page.
-            if(response.status == "200"){
+            if(response.status === 200){
                 alert(data.message);
                 window.location.reload();
             }
-            else if(response.status == "500"){
+            else if(response.status === 500){
                 alert(data.message);
                 errorMessage.textContent = "server error occured";
             }
