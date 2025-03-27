@@ -11,7 +11,7 @@ const Account = require('../models/Account.js');
 router.get('/', async function(req, res) {
     // Your code here. You may replace the code written below.
     const accounts  = await Account.find().sort({lastUpdated: -1});
-    res.render('index'), {accounts: accounts};      
+    res.render('index', {accounts: accounts});      
 });
 
 /* 
@@ -33,7 +33,7 @@ router.post('/add-debt', async function(req, res) {
         if(accountExists){
             accountExists.debtAmount += Number(debtAmount);
             accountExists.lastUpdated = new Date();
-            result = accountExists.save();
+            result = await accountExists.save();
             res.status(200).json("account successfully updated!");
         }
         else{
@@ -42,11 +42,11 @@ router.post('/add-debt', async function(req, res) {
                 debtAmount: debtAmount,
                 lastUpdated: new Date()
             });
-            res.status(200).json("account successfully created!");
+            res.status(200).json({message: "account successfully created!"});
         }   
     }
     catch(err){
-        res.status(500).json("server error occured");
+        res.status(500).json({message: "server error occured"});
     }
 
 });
