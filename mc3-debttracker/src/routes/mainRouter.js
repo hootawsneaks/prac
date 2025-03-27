@@ -24,8 +24,31 @@ router.get('/', async function(req, res) {
             or an existingaccount was simply updated.
             If unsuccessful, sends a response with status code 500.
 */
-router.post('/add-debt', async function(req, res) {
-    // Your code here.
+router.post('/add-debt', async function(req, res) { 
+    try{
+        const {accountName, debtAmount} = req.body;
+        const accountExists = await Account.findOne({accountName: accountName});
+        let message;
+        let result;
+        if(accountExists){
+            accountExists.debtAmount += Number(debtAmount);
+            accountExists.lastUpdated = new Date();
+            result = accountExists.save();
+            res.status(200).json("account successfully updated!");
+        }
+        else{
+            result = await Account.create({
+                accountName,
+                debtAmount: debtAmount,
+                lastUpdated: new Date()
+            });
+            res.status(200).json("account successfully created!");
+        }   
+    }
+    catch(err){
+        res.status(500).json("server error occured");
+    }
+
 });
 
 module.exports = router;
